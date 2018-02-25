@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    public function Thread()
+    public function thread()
     {
         return $this->belongsTo('App\Thread');
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use Illuminate\Http\Request;
+use Log;
 
 class ThreadController extends Controller
 {
@@ -14,7 +15,11 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        //
+        Log::debug(__METHOD__ . ' : bof');
+
+        $threads = Thread::latest()->get();
+
+        return view('threads.index', compact('threads'));
     }
 
     /**
@@ -46,7 +51,9 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        //
+         Log::debug(__METHOD__ . " : bof");
+
+        return view('threads.show', compact('thread'));
     }
 
     /**
