@@ -6,7 +6,7 @@
         <div class="col-md-8">
             @foreach ($threads as $thread)
                 <div class="card">
-                    <div class="card-header">{{ $thread->title }}</div>
+                    <div class="card-header"><a href="{{ $thread->path()}}">{{ $thread->title }}</a></div>
                     <div class="card-body">
                         {{ $thread->body }}
                     </div>
