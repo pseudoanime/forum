@@ -16,4 +16,14 @@ class Thread extends Model
     {
         return $this->hasMany('App\Reply');
     }
+
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function addReply($properties)
+    {
+        $this->replies()->create($properties);
+    }
 }
