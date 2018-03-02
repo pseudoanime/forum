@@ -14,17 +14,17 @@ class participateInForumTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
     /**  @test **/
     public function an_authenticated_user_may_participate_in_forum_threads()
     {
-        $user = factory('App\User')->create();
+        $user = create('App\User');
 
-        $this->be($user);
+        $this->signIn();
 
-        $reply = factory('App\Reply')->make();
+        $reply = make('App\Reply');
 
         $this ->followingRedirects()
             ->post($this->thread->path() . '/replies', $reply->toArray())
