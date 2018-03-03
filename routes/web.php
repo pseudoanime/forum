@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ThreadController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('threads', 'ThreadController');
+Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
 
-Route::post('threads/{thread}/replies', 'ReplyController@store');
+Route::resource('threads', 'ThreadController', ['except'=> 'show']);
+
+Route::post('threads/{channel}/{thread}/replies', 'ReplyController@store');
 
 Auth::routes();
 

@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class participateInForumTest extends TestCase
 {
@@ -26,7 +25,7 @@ class participateInForumTest extends TestCase
 
         $reply = make('App\Reply');
 
-        $this ->followingRedirects()
+        $this->followingRedirects()
             ->post($this->thread->path() . '/replies', $reply->toArray())
             ->assertSee($reply->body);
     }
@@ -34,10 +33,7 @@ class participateInForumTest extends TestCase
     /**  @test **/
     public function unauthenticated_users_may_not_post_replies()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $this->followingRedirects()
-            ->withoutExceptionHandling()
-            ->post($this->thread->path() . '/replies',[]);
+        $this->post($this->thread->path() . '/replies', [])
+            ->assertRedirect('login');
     }
 }

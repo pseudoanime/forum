@@ -31,17 +31,29 @@ class ThreadTest extends TestCase
     /**  @test **/
     public function a_thread_can_add_a_reply()
     {
-          $this->thread->addReply([
-              'body'=> "Foobar",
+        $this->thread->addReply([
+              'body'   => 'Foobar',
               'user_id'=> 1
           ]);
 
-          $this->assertCount(1, $this->thread->replies);
+        $this->assertCount(1, $this->thread->replies);
 
-          $this->assertDatabaseHas('replies', [
+        $this->assertDatabaseHas('replies', [
               'thread_id' => $this->thread->id,
-              'body' => "Foobar",
-              'user_id' => 1
-              ]);
+              'body'      => 'Foobar',
+              'user_id'   => 1
+            ]);
+    }
+
+    /**  @test **/
+    public function a_thread_belongs_to_a_channel()
+    {   
+         $this->assertInstanceOf('App\Channel', $this->thread->channel);
+    }
+
+    /**  @test **/
+    public function a_thread_can_have_a_string_path()
+    {
+          $this->assertEquals('/threads/'.$this->thread->channel->slug.'/'.$this->thread->id, $this->thread->path());
     }
 }
