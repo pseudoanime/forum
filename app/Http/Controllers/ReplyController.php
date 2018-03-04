@@ -43,7 +43,7 @@ class ReplyController extends Controller
     {
         $this->validate($request, [
             'body' => 'required'
-        ]);
+        ]);      
 
         $thread->addReply([
             'body'    => $request->body,
