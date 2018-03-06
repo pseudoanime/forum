@@ -19,13 +19,23 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Request $request, Channel $channel)
     {
         Log::debug(__METHOD__ . ' : bof');
 
-        $threads = Thread::when(isset($channel->id), function($query) use($channel) {
+        $query = Thread::when(isset($channel->id), function($query) use($channel) {
             return $query->where('channel_id', $channel->id);
-        })->latest()->get();  
+        })->latest();
+        
+        if ($request->has('by')) {
+            
+            $query = $query->whereHas('creator', function ($query) use($request)
+            {
+                $query->whereName($request->by);
+            });
+        }
+
+        $threads = $query->get();
 
         return view('threads.index', compact('threads'));
     }

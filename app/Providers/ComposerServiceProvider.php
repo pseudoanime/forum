@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Channel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
-use App\Channel;
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,9 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->share('channels', Channel::all());
+        view()->composer('*', function (View $view) {
+            $view->with('channels', Channel::all());
+        });
     }
 
     /**
