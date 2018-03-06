@@ -28,6 +28,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li><a href="/threads" style="color:rgba(0,0,0,.9);">All threads</a></li>
+                        <li> <a href="/threads/create" style="color:rgba(0,0,0,.9); padding:0em 1em">New Thread</a></li>
                         <li class="nav-item dropdown">
                             <a style="padding:0em 1em" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Channels
