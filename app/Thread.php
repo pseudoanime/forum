@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Filters\ThreadFilters;
 
 class Thread extends Model
 {
@@ -31,5 +32,10 @@ class Thread extends Model
     public function addReply($properties)
     {
         $this->replies()->create($properties);
+    }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
     }
 }

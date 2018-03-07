@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Filters\ThreadFilters;
 use App\Thread;
 use Illuminate\Http\Request;
 use Log;
@@ -19,23 +20,11 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Channel $channel)
+    public function index(Channel $channel, ThreadFilters $filters)
     {
         Log::debug(__METHOD__ . ' : bof');
 
-        $query = Thread::when(isset($channel->id), function($query) use($channel) {
-            return $query->where('channel_id', $channel->id);
-        })->latest();
-        
-        if ($request->has('by')) {
-            
-            $query = $query->whereHas('creator', function ($query) use($request)
-            {
-                $query->whereName($request->by);
-            });
-        }
-
-        $threads = $query->get();
+        $threads = $this->getThreads($channel, $filters);
 
         return view('threads.index', compact('threads'));
     }
@@ -58,9 +47,9 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'title' => 'required',
-            'body' => 'required',
+        $this->validate($request, [
+            'title'     => 'required',
+            'body'      => 'required',
             'channel_id'=> 'required|exists:channels,id'
         ]);
 
@@ -118,5 +107,14 @@ class ThreadController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    protected function getThreads($channel, $filters)
+    {
+        return Thread::when($channel->exists, function ($query) use ($channel) {
+            return $query->where('channel_id', $channel->id);
+        })->filter($filters)
+        ->latest()   
+        ->get();
     }
 }
