@@ -7,13 +7,22 @@ use App\Filters\ThreadFilters;
 
 class Thread extends Model
 {
-    protected $guarded =[];
+    protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replyCount', function ($builder) {
+            return $builder->withCount('replies');
+        });
+    }
 
     public function path()
     {
         return "/threads/{$this->channel->slug}/{$this->id}";
     }
-    
+
     public function replies()
     {
         return $this->hasMany('App\Reply');
