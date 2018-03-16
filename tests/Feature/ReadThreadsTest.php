@@ -16,21 +16,21 @@ class ReadThreadsTest extends TestCase
         $this->thread = create('App\Thread');
     }
 
-    /**  @test **/
+    /**  @test * */
     public function a_user_can_view_threads()
     {
         $this->get('/threads')
             ->assertSee($this->thread->title);
     }
 
-    /**  @test **/
+    /**  @test * */
     public function user_can_read_a_single_thread()
     {
         $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
-    /**  @test **/
+    /**  @test * */
     public function user_can_read_replies_associated_with_a_thread()
     {
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
@@ -39,7 +39,7 @@ class ReadThreadsTest extends TestCase
             ->assertSee($reply->body);
     }
 
-    /**  @test **/
+    /**  @test * */
     public function a_user_can_filter_threads_according_to_a_channel()
     {
         $channel = create('App\Channel');
@@ -53,7 +53,7 @@ class ReadThreadsTest extends TestCase
             ->assertDontSee($nonChannelThread->title);
     }
 
-    /**  @test **/
+    /**  @test * */
     public function a_user_can_filter_threads_based_on_any_username()
     {
         $this->signIn();
@@ -65,5 +65,24 @@ class ReadThreadsTest extends TestCase
         $this->get('/threads/?by=' . auth()->user()->name)
             ->assertSee($thread->title)
             ->assertDontSee($nonUserThread->title);
+    }
+
+    /** @test * */
+    public function a_user_can_filter_threads_by_popularity()
+    {
+        $threadWithThreeReplies = create('App\Thread');
+
+        create('App\Reply', ['thread_id' => $threadWithThreeReplies->id], 3);
+
+        $threadWithTwoReplies = create('App\Thread');
+
+        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
+
+        $response = $this->get("/threads?popular=1");
+
+        $threadsFromResponse = $response->baseResponse->original->getData()['threads'];
+
+        $this->assertEquals([3, 2, 0], $threadsFromResponse->pluck('replies_count')->toArray());
+
     }
 }
