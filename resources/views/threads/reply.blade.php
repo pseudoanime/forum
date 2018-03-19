@@ -7,7 +7,7 @@
             <div>
 
                 {{ Form::open(["url" => "/replies/ " .  $reply->id  . "/favorites"]) }}
-                {{ Form::submit($reply->favorites()->count() . " " . str_plural("favorite", $reply->favorites()->count()), ["class" => "btn btn-default", $reply->isFavorited() ? 'disabled' : ""]) }}
+                {{ Form::submit($reply->favorites_count . " " . str_plural("favorite", $reply->favorites_count), ["class" => "btn btn-default", $reply->isFavorited() ? 'disabled' : ""]) }}
                 {{ Form::close() }}
             </div>
         </div>
