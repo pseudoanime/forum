@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 class Reply extends Model
 {
@@ -25,13 +26,25 @@ class Reply extends Model
 
     public function favorite()
     {
+        Log::debug(__METHOD__ . " :bof");
+
         $attributes = [
             'user_id' => auth()->id()
         ];
 
-        if (!$this->favorites()->where('user_id', auth()->id())->exists()) {
+        if (!$this->isFavorited()) {
 
             $this->favorites()->create($attributes);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFavorited()
+    {
+        Log::debug(__METHOD__ . " :bof");
+
+        return $this->favorites()->where('user_id', auth()->id())->exists();
     }
 }

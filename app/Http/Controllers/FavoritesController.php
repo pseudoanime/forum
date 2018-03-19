@@ -36,7 +36,9 @@ class FavoritesController extends Controller
     {
         Log::debug(__METHOD__ . " : bof");
 
-        return $reply->favorite();
+        $reply->favorite();
+
+        return back();
 
     }
 
