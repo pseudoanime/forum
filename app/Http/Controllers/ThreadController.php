@@ -120,9 +120,10 @@ class ThreadController extends Controller
 
     protected function getThreads($channel, $filters)
     {
-        return Thread::when($channel->exists, function ($query) use ($channel) {
-            return $query->where('channel_id', $channel->id);
-        })->filter($filters)
+        return Thread::with('channel')
+            ->when($channel->exists, function ($query) use ($channel) {
+                return $query->where('channel_id', $channel->id);
+            })->filter($filters)
             ->latest()
             ->get();
     }
