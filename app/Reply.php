@@ -7,7 +7,11 @@ use Log;
 
 class Reply extends Model
 {
+    use Favoritable;
+
     protected $fillable = ['body', 'user_id'];
+
+    protected $with = ['owner', 'favorites'];
 
     public function thread()
     {
@@ -19,32 +23,4 @@ class Reply extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
-    public function favorites()
-    {
-        return $this->morphMany('App\Favorite', 'favorited');
-    }
-
-    public function favorite()
-    {
-        Log::debug(__METHOD__ . " :bof");
-
-        $attributes = [
-            'user_id' => auth()->id()
-        ];
-
-        if (!$this->isFavorited()) {
-
-            $this->favorites()->create($attributes);
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFavorited()
-    {
-        Log::debug(__METHOD__ . " :bof");
-
-        return $this->favorites()->where('user_id', auth()->id())->exists();
-    }
 }
