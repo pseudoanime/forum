@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get("/profiles/{user}", 'ProfilesController@show');
+
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
 
 Route::resource('threads', 'ThreadController', ['except' => 'show']);
