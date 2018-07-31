@@ -115,14 +115,26 @@ class ThreadController extends Controller
      */
     public function destroy(Thread $thread)
     {
-        //
+        Log::debug(__METHOD__ . " :bof");
+
+        if ($thread->user_id == auth()->id()) {
+
+            $thread->delete();
+
+            return redirect('/threads');
+
+        } else {
+
+            return response(null, 403);
+
+        }
     }
 
     protected function getThreads(Channel $channel, $filters)
     {
         return Thread::when($channel->exists, function ($query) use ($channel) {
-                return $query->where('channel_id', $channel->id);
-            })->filter($filters)
+            return $query->where('channel_id', $channel->id);
+        })->filter($filters)
             ->latest()
             ->get();
     }

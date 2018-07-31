@@ -6,14 +6,23 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{  route("profiles", [$thread->creator->name])}}"> {{ $thread->creator->name}}</a>
+                        <div class="level">
+                            <span class="flex">
+                                <a href="{{  route("profiles", [$thread->creator->name])}}"> {{ $thread->creator->name}}</a>
                         posted:
-                        {{ $thread->title }}
+                                {{ $thread->title }}
+                            </span>
+                            @if(Auth::check() && auth()->id() == $thread->user_id)
+                                <span>{{ Form::open(['url' => "/threads/" . $thread->id, 'method' => 'DELETE']) }} {{Form::submit('DELETE')}} {{ Form::close() }}</span>
+                                @endauth
+                        </div>
+
                     </div>
                     <div class="card-body">
                         {{ $thread->body }}
                     </div>
                 </div>
+                <br>
                 @foreach ($replies as $reply)
                     @include('threads.reply')
                 @endforeach
