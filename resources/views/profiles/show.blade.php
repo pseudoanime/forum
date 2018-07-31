@@ -7,9 +7,25 @@
                 <small>Since {{ $profileUser->created_at->diffForHumans() }}</small>
             </h1>
 
-            @foreach($profileUser->createdThreads as $thread)
-                {{ $thread->title }}
-            @endforeach
+            @forelse($threads as $thread)
+                <div class="card">
+                    <div class="card-header">
+                        <div class="level">
+                            <span class="flex">
+                        <a href="#"> {{ $profileUser->name }}</a> posted:
+                                {{ $thread->title }}
+                            </span>
+                            <span>{{$thread->created_at->diffForHumans()}}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {{ $thread->body }}
+                    </div>
+                </div>
+                {{ $threads->links() }}
+            @empty
+                There are no threads for this user yet.
+            @endforelse
         </div>
     </div>
 @endsection

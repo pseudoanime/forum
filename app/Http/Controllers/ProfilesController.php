@@ -56,9 +56,12 @@ class ProfilesController extends Controller
     {
         Log::debug(__METHOD__ . " : bof");
 
-        $user->load('createdThreads');
+        $user->load('threads');
 
-        return view('profiles.show')->with('profileUser', $user);
+        return view('profiles.show', [
+            'profileUser' => $user,
+            'threads'     => $user->threads()->paginate(30)
+        ]);
     }
 
     /**

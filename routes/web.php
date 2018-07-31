@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/profiles/{user}", 'ProfilesController@show');
+Route::get("/profiles/{user}", 'ProfilesController@show')->name('profiles');
 
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
 
