@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @foreach ($threads as $thread)
+                @forelse ($threads as $thread)
                     <div class="card">
                         <div class="card-header level">
                             <a class="flex" href="{{ $thread->path()}}">{{ $thread->title }}</a>
@@ -19,7 +19,9 @@
                         </div>
                     </div>
                     <br>
-                @endforeach
+                @empty
+                    <p>There are no threads on this channel.</p>
+                @endforelse
             </div>
         </div>
     </div>

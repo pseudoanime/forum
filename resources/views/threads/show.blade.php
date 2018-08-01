@@ -12,9 +12,9 @@
                         posted:
                                 {{ $thread->title }}
                             </span>
-                            @if(Auth::check() && auth()->id() == $thread->user_id)
-                                <span>{{ Form::open(['url' => "/threads/" . $thread->id, 'method' => 'DELETE']) }} {{Form::submit('DELETE')}} {{ Form::close() }}</span>
-                                @endauth
+                            @can('update', $thread)
+                            <span>{{ Form::open(['url' => "/threads/" . $thread->id, 'method' => 'DELETE']) }} {{Form::submit('Delete Thread', ['class' => "btn btn-link"])}} {{ Form::close() }}</span>
+                            @endcan
                         </div>
 
                     </div>

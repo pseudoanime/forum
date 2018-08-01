@@ -117,17 +117,12 @@ class ThreadController extends Controller
     {
         Log::debug(__METHOD__ . " :bof");
 
-        if ($thread->user_id == auth()->id()) {
+        $this->authorize('update', $thread);
 
-            $thread->delete();
+        $thread->delete();
 
-            return redirect('/threads');
+        return redirect('/threads');
 
-        } else {
-
-            return response(null, 403);
-
-        }
     }
 
     protected function getThreads(Channel $channel, $filters)
