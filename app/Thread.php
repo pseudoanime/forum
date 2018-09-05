@@ -3,13 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Filters\ThreadFilters;
 
 class Thread extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
 
-    protected $with = ["creator", "channel"];
+    protected $with = ['creator', 'channel'];
 
     protected static function boot()
     {
@@ -23,15 +24,6 @@ class Thread extends Model
             $thread->replies()->delete();
         });
 
-        static::created(function ($thread) {
-
-            Activity::create([
-                'user_id'      => auth()->id(),
-                'type'         => 'created thread',
-                'subject_type' => get_class($thread),
-                'subject_id'   => $thread->id
-            ]);
-        });
     }
 
     public function path()

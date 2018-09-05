@@ -8,6 +8,7 @@ use Log;
 class Reply extends Model
 {
     use Favoritable;
+    use RecordsActivity;
 
     protected $fillable = ['body', 'user_id'];
 
