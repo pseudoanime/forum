@@ -6,6 +6,7 @@ use App\Reply;
 use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Activity;
 
 class ManageThreadsTest extends TestCase
 {
@@ -100,7 +101,7 @@ class ManageThreadsTest extends TestCase
         $this->delete('/threads/' . $thread->id)
             ->assertRedirect();
 
-        $this->assertDatabaseMissing('replies', ['thread_id' => $thread->id]);
+        $this->assertCount(0, Activity::all());
 
     }
 

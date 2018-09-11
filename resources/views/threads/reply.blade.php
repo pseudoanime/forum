@@ -14,6 +14,12 @@
     </div>
     <div class="card-body">
         {{ $reply->body }}
+       <br>
+       @can('update', $reply)
+        {{ Form::open(['url' => "/replies/$reply->id", 'method' => 'delete'])}}
+        {{ Form::submit('Delete')}}
+        {{ Form::close()}}
+       @endcan
     </div>
 </div>
 <br/>

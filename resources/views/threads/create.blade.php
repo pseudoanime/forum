@@ -15,7 +15,7 @@
                     @endforeach
                     </ul>
                     </div>
-                    @endif
+                    @endif 
                     {{Form::open(["url" => "/threads"])}}
                         <div class="form-group">
                             <label for="channel_id">Choose a channel:</label>
