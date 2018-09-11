@@ -24,14 +24,14 @@ class ProfilesTest extends TestCase
     public function test_profiles_display_all_the_threads_associated_to_the_user()
     {
 
-        $user = create(User::class);
+        $this->signIn();
 
         $thread = create(Thread::class, [
-            'user_id' => $user->id
+            'user_id' => auth()->id()
         ]);
 
         $this->withoutExceptionHandling()
-            ->get("/profiles/{$user->name}")
+            ->get("/profiles/" . auth()->user()->name)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
 
