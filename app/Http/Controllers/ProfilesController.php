@@ -56,11 +56,9 @@ class ProfilesController extends Controller
     {
         Log::debug(__METHOD__ . " : bof");
 
-        $user->load('threads');
-
         return view('profiles.show', [
             'profileUser' => $user,
-            'threads'     => $user->threads()->paginate(30)
+            'activities'  => $this->getActivity($user)
         ]);
     }
 
@@ -99,5 +97,19 @@ class ProfilesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * getActivity
+     *
+     * @param User $user
+     *
+     * @return mixed
+     */
+    protected function getActivity(User $user)
+    {
+        return $user->activity()->with('subject')->take(50)->get()->groupBy(function ($activity) {
+            return $activity->created_at->format('Y-m-d');
+        });
     }
 }

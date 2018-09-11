@@ -32,7 +32,7 @@ trait RecordsActivity
     {
         $type = strtolower((new \ReflectionClass($this))->getShortName());
 
-        return $event . " " . $type;
+        return $event . "_" . $type;
     }
 
     public function activity()
