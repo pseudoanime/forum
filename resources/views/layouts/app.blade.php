@@ -33,6 +33,7 @@
 
     <main class="py-4">
         @yield('content')
+        <flash message="some message"></flash>
     </main>
 </div>
 
