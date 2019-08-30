@@ -82,7 +82,7 @@ class RegisterController extends Controller
 //        $this->validator($request->all())->validate();
 
         $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $myvars = 'secret=6LfjubUUAAAAAOD9KTWC3fALjA_fTGBQSaRHsXM7&response=' . $request->input('g-recaptcha-response');
+        $myvars = 'secret=' . env("RECAPTCHA_SECRET") . '&response=' . $request->input('g-recaptcha-response');
 
         $ch = curl_init( $url );
         curl_setopt( $ch, CURLOPT_POST, 1);
@@ -91,7 +91,9 @@ class RegisterController extends Controller
         curl_setopt( $ch, CURLOPT_HEADER, 0);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
 
-        $response = json_decode(curl_exec( $ch ));
+        $response = curl_exec( $ch );
+
+        $response=json_decode($response);
 
         foreach ($response as $key => $item) {
            if($key=="success" && $item==false) {

@@ -4,7 +4,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld7urUUAAAAAN5F0dbUxJQoca738QMvo-COgEcA"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6Ld7urUUAAAAAN5F0dbUxJQoca738QMvo-COgEcA', {action: 'homepage'});
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("button").click(function (e) {
+                e.preventDefault();
+                grecaptcha.execute('6Ld7urUUAAAAAN5F0dbUxJQoca738QMvo-COgEcA', {action: 'click'}).then(function (token) {
+                    alert(token);
+                    var input = $("<input>").attr("type", "hidden").attr("name", "g-recaptcha-response").val(token);
+                    $('#registerForm').append(input);
+                    $( "#registerForm" ).submit();
+                });
+            });
+        });
+
+    </script>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
