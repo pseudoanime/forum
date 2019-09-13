@@ -13,7 +13,14 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}" id="registerForm">
                             @csrf
-
+                            <div class="form-group">
+                                <div class="col-md-8 text-center text-danger">
+                                    @if ($errors->has('recaptcha'))
+                                        <strong>{{ $errors->first('recaptcha') }}</strong>
+                                    @endif
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 

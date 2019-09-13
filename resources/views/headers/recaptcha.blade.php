@@ -3,7 +3,7 @@
     $(document).ready(function () {
         $("button").click(function (e) {
             e.preventDefault();
-            grecaptcha.execute({{$recaptchaSiteKey}}, {action: 'register'}).then(function (token) {
+            grecaptcha.execute('{{$recaptchaSiteKey}}', {action: 'register'}).then(function (token) {
                 var input = $("<input>").attr("type", "hidden").attr("name", "g-recaptcha-response").val(token);
                 $('#registerForm').append(input);
                 $("#registerForm").submit();
