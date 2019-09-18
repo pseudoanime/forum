@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ThreadController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +32,7 @@ Route::delete('replies/{reply}', 'ReplyController@destroy');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('shop', 'ShopController@index');
+
+Route::get('buy/{product}', 'ShopController@buy');

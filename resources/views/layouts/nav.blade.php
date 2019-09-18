@@ -36,6 +36,7 @@
                         @endforeach
                     </div>
                 </li>
+                <li><a href="/shop" style="color:rgba(0,0,0,.9); padding:0em 1em">Shop</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
