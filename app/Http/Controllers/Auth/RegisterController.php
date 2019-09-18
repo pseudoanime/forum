@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\registerRequest;
+use App\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -40,6 +40,14 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register',[
+            'recaptchaSiteKey' => env("RECAPTCHA_SITEKEY")
+        ]);
+    }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -74,31 +82,11 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  registerRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(registerRequest $request)
     {
-//        $this->validator($request->all())->validate();
-
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $myvars = 'secret=6LfjubUUAAAAAOD9KTWC3fALjA_fTGBQSaRHsXM7&response=' . $request->input('g-recaptcha-response');
-
-        $ch = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_POST, 1);
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt( $ch, CURLOPT_HEADER, 0);
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $response = json_decode(curl_exec( $ch ));
-
-        foreach ($response as $key => $item) {
-           if($key=="success" && $item==false) {
-               die("failed");
-           }
-        }
-
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
